@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leo's 32nd Birthday Party</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Leo's 32nd Birthday</title>
     <style>
         :root {
-            /* Apple/OpenAI 字体堆栈 */
-            --apple-font: 'Inter', -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            /* 针对国内环境优化的 Apple/OpenAI 风格字库堆栈 */
+            --apple-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
         }
 
         body { 
             background: #0b0915; 
             color: #d4af37; 
             font-family: var(--apple-font);
-            -webkit-font-smoothing: antialiased; /* 让字体在苹果设备上更丝滑 */
+            -webkit-font-smoothing: antialiased;
             text-align: center; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             height: 100vh; 
             margin: 0; 
+            background-image: radial-gradient(circle at center, #1a1630 0%, #0b0915 100%);
         }
 
         .card { 
@@ -29,57 +29,60 @@
             max-width: 380px; 
             padding: 50px 25px; 
             border: 0.5px solid rgba(212, 175, 55, 0.3); 
-            border-radius: 20px; 
-            background: rgba(255,255,255,0.03); 
-            backdrop-filter: blur(15px); 
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); 
+            border-radius: 24px; 
+            background: rgba(255,255,255,0.02); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6); 
         }
 
-        h1 { font-size: 20px; letter-spacing: 5px; margin-bottom: 40px; font-weight: 400; text-transform: uppercase; }
+        h1 { font-size: 18px; letter-spacing: 6px; margin-bottom: 40px; font-weight: 300; text-transform: uppercase; opacity: 0.9; }
         
         input { 
-            background: transparent; border: none; border-bottom: 1px solid rgba(212, 175, 55, 0.5); 
-            color: #fff; width: 70%; padding: 12px; font-size: 22px; text-align: center; 
+            background: transparent; border: none; border-bottom: 1px solid rgba(212, 175, 55, 0.4); 
+            color: #fff; width: 60%; padding: 12px; font-size: 24px; text-align: center; 
             margin-bottom: 30px; outline: none; transition: 0.3s;
-            font-family: var(--apple-font);
+            letter-spacing: 4px;
         }
 
-        input:focus { border-bottom-color: #d4af37; }
+        input:focus { border-bottom-color: #d4af37; border-bottom-width: 2px; }
 
         button { 
-            background: #d4af37; color: #0b0915; border: none; padding: 14px 45px; 
-            border-radius: 30px; font-size: 15px; cursor: pointer; transition: 0.3s; 
-            font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+            background: #d4af37; color: #0b0915; border: none; padding: 14px 50px; 
+            border-radius: 30px; font-size: 14px; cursor: pointer; transition: 0.3s; 
+            font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
         }
 
-        button:hover { opacity: 0.9; transform: translateY(-2px); }
+        button:active { transform: scale(0.95); }
 
-        .hint { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 15px; letter-spacing: 1px; }
+        .hint { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 15px; letter-spacing: 1px; }
         
-        #timer { font-size: 32px; margin: 30px 0; font-weight: 300; letter-spacing: -1px; }
+        #timer { font-size: 30px; margin: 30px 0; font-weight: 200; color: #fff; }
         
+        #info { text-align: left; padding: 0 15px; font-size: 13px; line-height: 2.2; color: rgba(212, 175, 55, 0.7); }
+        #info b { color: #fff; font-weight: 500; margin-right: 5px; }
+
         .hidden { display: none; }
-
-        #info b { color: #fff; font-weight: 600; }
     </style>
 </head>
 <body>
     <div class="card">
         <div id="login-section">
             <h1>PRIVATE ACCESS</h1>
-            <input type="password" id="entry-pass" placeholder="••••">
-            <p class="hint">HINT: LEO'S BIRTHDAY</p>
+            <input type="tel" id="entry-pass" maxlength="4" placeholder="••••" autocomplete="off">
+            <p class="hint">暗号：LEO生日 (MMDD)</p>
             <button onclick="verifyEntry()">ENTER</button>
         </div>
 
         <div id="content-section" class="hidden">
-            <h1 id="status-title">COUNTDOWN</h1>
-            <div id="timer">00:00:00:00</div>
-            <div id="info" style="text-align: left; padding: 0 10px; font-size: 14px; line-height: 2; color: rgba(212, 175, 55, 0.8);">
+            <h1>COUNTDOWN</h1>
+            <div id="timer">0D 00H 00M 00S</div>
+            <div id="info">
                 <p>📍 <b>LOCATION:</b> 成都市 高新区 xxx </p>
-                <p>⏰ <b>SCHEDULE:</b> 2026/2/6 19:00 晚餐 / 21:00 音乐会</p>
+                <p>⏰ <b>SCHEDULE:</b> 2026.2.6 19:00 晚餐 / 21:00 Live音乐会 </p>
             </div>
-            <p style="font-size: 10px; opacity: 0.4; margin-top: 40px; letter-spacing: 2px;">POWERED BY LEO 32 PROJECT</p>
+            <p style="font-size: 9px; opacity: 0.3; margin-top: 40px; letter-spacing: 2px;">CONFIDENTIAL INVITATION</p>
         </div>
     </div>
 
@@ -87,20 +90,18 @@
         const SHIMO_URL = "https://shimo.im/forms/AxwXHAurIcHIClpJ";
         const PARTY_DATE = new Date("February 6, 2026 12:00:00").getTime();
 
-        window.onload = function() {
-            if (localStorage.getItem("leo_party_auth") === "granted") {
-                showContent();
-            }
-        };
+        // 自动识别状态
+        if (localStorage.getItem("leo_party_auth") === "granted") {
+            showContent();
+        }
 
         function verifyEntry() {
             const pass = document.getElementById("entry-pass").value;
             if (pass === "0203") {
                 localStorage.setItem("leo_party_auth", "granted");
-                // 模拟科技感加载
                 const btn = document.querySelector('button');
-                btn.innerText = "LOADING...";
-                setTimeout(() => { window.location.href = SHIMO_URL; }, 800);
+                btn.innerText = "AUTHENTICATING...";
+                setTimeout(() => { window.location.href = SHIMO_URL; }, 500);
             } else {
                 alert("ACCESS DENIED");
             }
@@ -120,7 +121,7 @@
                 const h = String(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
                 const m = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
                 const s = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2, '0');
-                document.getElementById("timer").innerHTML = `${d}D ${h}H ${m}M ${s}S`;
+                document.getElementById('timer').innerHTML = `${d}D ${h}H ${m}M ${s}S`;
             };
             update();
             setInterval(update, 1000);
