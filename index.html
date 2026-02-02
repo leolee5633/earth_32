@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leo's 32nd Birthday Party</title>
+    <style>
+        body { background: #0b0915; color: #d4af37; font-family: "PingFang SC", "Microsoft YaHei", serif; text-align: center; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden; }
+        .card { width: 90%; max-width: 400px; padding: 40px 20px; border: 1px solid #d4af37; border-radius: 15px; background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
+        h1 { font-size: 24px; letter-spacing: 4px; margin-bottom: 30px; font-weight: 300; }
+        input { background: transparent; border: none; border-bottom: 1px solid #d4af37; color: #fff; width: 80%; padding: 10px; font-size: 18px; text-align: center; margin-bottom: 30px; outline: none; }
+        button { background: #d4af37; color: #0b0915; border: none; padding: 12px 40px; border-radius: 25px; font-size: 16px; cursor: pointer; transition: 0.3s; font-weight: bold; }
+        button:hover { opacity: 0.8; transform: scale(1.05); }
+        .hint { font-size: 12px; color: #777; margin-top: 10px; }
+        #timer { font-size: 28px; margin: 20px 0; font-weight: bold; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div id="login-section">
+            <h1>PRIVATE INVITATION</h1>
+            <input type="password" id="entry-pass" placeholder="请输入通行码">
+            <p class="hint">Hint: Leo's Birthday</p>
+            <button onclick="verifyEntry()">进入</button>
+        </div>
+
+        <div id="content-section" class="hidden">
+            <h1 id="status-title">倒计时</h1>
+            <div id="timer">00:00:00:00</div>
+            <div id="info" style="text-align: left; padding: 0 20px; line-height: 1.8;">
+                <p>📍 <b>活动地点：</b>成都市 [请在此修改具体餐厅/酒吧名字]</p>
+                <p>⏰ <b>时间安排：</b><br>18:00 晚餐庆典<br>21:00 餐后酒会</p>
+            </div>
+            <p style="font-size: 12px; opacity: 0.6; margin-top: 30px;">期待与你共同开启 32 岁的飞行旅程</p>
+        </div>
+    </div>
+
+    <script>
+        const SHIMO_URL = "https://shimo.im/forms/AxwXHAurIcHIClpJ";
+        const PARTY_DATE = new Date("February 6, 2026 18:00:00").getTime();
+
+        // 检查是否已经登录过
+        window.onload = function() {
+            if (localStorage.getItem("leo_party_auth") === "granted") {
+                showContent();
+            }
+        };
+
+        function verifyEntry() {
+            const pass = document.getElementById("entry-pass").value;
+            if (pass === "0203") {
+                // 第一次进入，跳转石墨问卷
+                localStorage.setItem("leo_party_auth", "granted");
+                alert("欢迎！正在为您跳转邀请函详情登记...");
+                window.location.href = SHIMO_URL;
+            } else {
+                alert("通行码错误，请重新输入");
+            }
+        }
+
+        function showContent() {
+            document.getElementById("login-section").classList.add("hidden");
+            document.getElementById("content-section").classList.remove("hidden");
+            startTimer();
+        }
+
+        function startTimer() {
+            setInterval(function() {
+                const now = new Date().getTime();
+                const distance = PARTY_DATE - now;
+                const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((distance % (1000 * 60)) / 1000);
+                document.getElementById("timer").innerHTML = d + "天 " + h + "时 " + m + "分 " + s + "秒";
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
