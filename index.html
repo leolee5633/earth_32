@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MEGA 32</title>
+    <title>See You in 2036 | Leo's Project</title>
     <style>
         :root {
             --apple-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
             --gold: #d4af37;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
+        @keyframes slowFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -31,83 +31,78 @@
 
         .card { 
             width: 85%; 
-            max-width: 380px; 
-            padding: 50px 25px; 
-            border: 0.5px solid rgba(212, 175, 55, 0.3); 
-            border-radius: 24px; 
-            background: rgba(255,255,255,0.02); 
-            backdrop-filter: blur(20px); 
-            -webkit-backdrop-filter: blur(20px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6); 
+            max-width: 420px; 
+            padding: 60px 25px; 
+            border: 0.5px solid rgba(212, 175, 55, 0.2); 
+            border-radius: 28px; 
+            background: rgba(255,255,255,0.01); 
+            backdrop-filter: blur(25px); 
+            -webkit-backdrop-filter: blur(25px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+            animation: slowFadeIn 1.5s ease-out;
         }
 
-        h1 { font-size: 18px; letter-spacing: 6px; margin-bottom: 40px; font-weight: 300; text-transform: uppercase; opacity: 0.9; }
+        h1 { font-size: 20px; letter-spacing: 4px; margin-bottom: 20px; font-weight: 300; }
+        .sub-text { font-size: 14px; opacity: 0.8; line-height: 1.8; margin-bottom: 40px; font-weight: 300; }
         
+        #timer { 
+            font-size: 24px; 
+            margin: 40px 0; 
+            font-weight: 200; 
+            color: #fff; 
+            letter-spacing: 1px;
+            background: rgba(212, 175, 55, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            border: 0.5px solid rgba(212, 175, 55, 0.3);
+        }
+        
+        .footer-note { font-size: 10px; opacity: 0.3; margin-top: 50px; letter-spacing: 3px; text-transform: uppercase; }
+
+        /* 登录样式保留 */
         input { 
             background: transparent; border: none; border-bottom: 1px solid rgba(212, 175, 55, 0.4); 
             color: #fff; width: 60%; padding: 12px; font-size: 24px; text-align: center; 
-            margin-bottom: 30px; outline: none; transition: 0.3s;
-            letter-spacing: 4px;
+            margin-bottom: 30px; outline: none; letter-spacing: 4px;
         }
-
-        input:focus { border-bottom-color: var(--gold); border-bottom-width: 2px; }
-
         button { 
             background: var(--gold); color: #0b0915; border: none; padding: 14px 50px; 
-            border-radius: 30px; font-size: 14px; cursor: pointer; transition: 0.3s; 
-            font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            border-radius: 30px; font-size: 14px; cursor: pointer; font-weight: 700;
         }
-
-        #timer { font-size: 30px; margin: 30px 0; font-weight: 200; color: #fff; }
-        
-        #info { text-align: left; padding: 0 15px; font-size: 13px; line-height: 2.2; color: rgba(212, 175, 55, 0.7); }
-        #info b { color: #fff; font-weight: 500; margin-right: 5px; }
-
-        .room-tag {
-            display: inline-block;
-            background: rgba(212, 175, 55, 0.15);
-            padding: 2px 10px;
-            border-radius: 4px;
-            border: 1px solid var(--gold);
-            color: #fff;
-            font-weight: bold;
-            margin-left: 5px;
-            animation: fadeIn 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-        }
-
         .hidden { display: none; }
     </style>
 </head>
 <body>
     <div class="card">
         <div id="login-section">
-            <h1>PRIVATE ACCESS</h1>
-            <input type="tel" id="entry-pass" maxlength="4" placeholder="••••" autocomplete="off">
-            <p style="font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 15px; letter-spacing: 1px;">暗号：LEO生日 (MMDD)</p>
+            <h1>PRIVATE ARCHIVE</h1>
+            <input type="tel" id="entry-pass" maxlength="4" placeholder="••••">
+            <br>
             <button onclick="verifyEntry()">ENTER</button>
         </div>
 
         <div id="content-section" class="hidden">
-            <h1 id="status-title">FINAL COUNTDOWN</h1>
-            <div id="timer">0D 00H 00M 00S</div>
-            <div id="info">
-                <p>📍 <b>LOCATION:</b> 成都市 高新区 剑南大道北段 92号 <span id="room-slot"></span></p>
-                <p>⏰ <b>SCHEDULE:</b> 2026.2.6 19:00 晚餐 / 21:00 音乐会 </p>
-                <p>🤵🤵‍♀️ <b>DRESS CODE:</b> 浅色系 </p>
-                <p>🎁 <b>GIFT SUGGESTION:</b> 一本你最喜欢的书 </p>
-                <p>🗺️<b>导航定位</b> 路易城堡.太阳宫 </p>
-                <p>🚗<b>温馨提示</b> 驾车的贵宾，请下高架沿辅道从1号门进入地下停车场，车停靠近卢浮厅电梯厅位置，乘太阳宫1.2号客梯上三楼海港城！</p>
+            <h1>谢谢你的出席</h1>
+            <div class="sub-text">
+                "Thanks for all the fish!" <br>
+                一段旅程结束，是为了下一场更有意义的启航。
             </div>
-            <p style="font-size: 9px; opacity: 0.3; margin-top: 40px; letter-spacing: 2px;">Celebrating Earthling's Endeavour to Go the Moon Again!</p>
+            
+            <div style="font-size: 12px; letter-spacing: 2px; opacity: 0.6;">我们再见时，将会是：</div>
+            <div id="timer">Loading Orbit...</div>
+            
+            <div style="font-size: 13px; color: var(--gold); opacity: 0.9; margin-top: 10px;">
+                2036.02.03 <br>
+                十年之约 · 宇宙见
+            </div>
+
+            <p class="footer-note">Leo 32-42 Strategic Mission</p>
         </div>
     </div>
 
     <script>
-        const SHIMO_URL = "https://shimo.im/forms/AxwXHAurIcHIClpJ/fill";
-        // 重启倒计时目标：今晚 18:30
-        const PARTY_DATE = new Date("February 6, 2026 18:30:00").getTime();
-        let isFinalUnlocked = false;
+        // 目标：2036年2月3日 18:00
+        const NEXT_DECADE = new Date("February 3, 2036 18:00:00").getTime();
 
         if (localStorage.getItem("leo_party_auth") === "granted") {
             showContent();
@@ -117,9 +112,7 @@
             const pass = document.getElementById("entry-pass").value;
             if (pass === "0203") {
                 localStorage.setItem("leo_party_auth", "granted");
-                const btn = document.querySelector('button');
-                btn.innerText = "AUTHENTICATING...";
-                setTimeout(() => { window.location.href = SHIMO_URL; }, 500);
+                showContent();
             } else {
                 alert("ACCESS DENIED");
             }
@@ -128,30 +121,20 @@
         function showContent() {
             document.getElementById("login-section").classList.add("hidden");
             document.getElementById("content-section").classList.remove("hidden");
-            startTimer();
+            startLongCountdown();
         }
 
-        function startTimer() {
+        function startLongCountdown() {
             const update = () => {
                 const now = new Date().getTime();
-                const distance = PARTY_DATE - now;
-                
-                if (distance <= 0) {
-                    if (!isFinalUnlocked) {
-                        document.getElementById('timer').innerHTML = `0D 00H 00M 00S`;
-                        document.getElementById('status-title').innerHTML = "WELCOME TO THE PARTY";
-                        // 注入房间号惊喜
-                        document.getElementById('room-slot').innerHTML = `<span class="room-tag">房间号 999</span>`;
-                        isFinalUnlocked = true;
-                    }
-                    return; 
-                }
+                const distance = NEXT_DECADE - now;
 
                 const d = Math.floor(distance / (1000 * 60 * 60 * 24));
                 const h = String(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
                 const m = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
                 const s = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2, '0');
-                document.getElementById('timer').innerHTML = `${d}D ${h}H ${m}M ${s}S`;
+
+                document.getElementById('timer').innerHTML = `${d}天 ${h}时 ${m}分 ${s}秒`;
             };
             update();
             setInterval(update, 1000);
