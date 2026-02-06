@@ -59,16 +59,21 @@
             box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
         }
 
-        .hint { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 15px; letter-spacing: 1px; }
-        
         #timer { font-size: 30px; margin: 30px 0; font-weight: 200; color: #fff; }
         
         #info { text-align: left; padding: 0 15px; font-size: 13px; line-height: 2.2; color: rgba(212, 175, 55, 0.7); }
         #info b { color: #fff; font-weight: 500; margin-right: 5px; }
 
-        /* 关键：动画只执行一次，并保持最终状态 */
-        .unlocked-animation { 
-            animation: fadeIn 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards; 
+        .room-tag {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.15);
+            padding: 2px 10px;
+            border-radius: 4px;
+            border: 1px solid var(--gold);
+            color: #fff;
+            font-weight: bold;
+            margin-left: 5px;
+            animation: fadeIn 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
         }
 
         .hidden { display: none; }
@@ -79,18 +84,20 @@
         <div id="login-section">
             <h1>PRIVATE ACCESS</h1>
             <input type="tel" id="entry-pass" maxlength="4" placeholder="••••" autocomplete="off">
-            <p class="hint">暗号：LEO生日 (MMDD)</p>
+            <p style="font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 15px; letter-spacing: 1px;">暗号：LEO生日 (MMDD)</p>
             <button onclick="verifyEntry()">ENTER</button>
         </div>
 
         <div id="content-section" class="hidden">
-            <h1 id="status-title">COUNTDOWN</h1>
+            <h1 id="status-title">FINAL COUNTDOWN</h1>
             <div id="timer">0D 00H 00M 00S</div>
             <div id="info">
-                <p>📍 <b>LOCATION:</b> 成都市 高新区 剑南大道北段 [已锁定] </p>
+                <p>📍 <b>LOCATION:</b> 成都市 高新区 剑南大道北段 92号 <span id="room-slot"></span></p>
                 <p>⏰ <b>SCHEDULE:</b> 2026.2.6 19:00 晚餐 / 21:00 音乐会 </p>
                 <p>🤵🤵‍♀️ <b>DRESS CODE:</b> 浅色系 </p>
                 <p>🎁 <b>GIFT SUGGESTION:</b> 一本你最喜欢的书 </p>
+                <p>🗺️<b>导航定位</b> 路易城堡.太阳宫 </p>
+                <p>🚗<b>温馨提示</b> 驾车的贵宾，请下高架沿辅道从1号门进入地下停车场，车停靠近卢浮厅电梯厅位置，乘太阳宫1.2号客梯上三楼海港城！</p>
             </div>
             <p style="font-size: 9px; opacity: 0.3; margin-top: 40px; letter-spacing: 2px;">CONFIDENTIAL INVITATION</p>
         </div>
@@ -98,8 +105,9 @@
 
     <script>
         const SHIMO_URL = "https://shimo.im/forms/AxwXHAurIcHIClpJ/fill";
-        const PARTY_DATE = new Date("February 6, 2026 11:00:00").getTime();
-        let isUnlocked = false; // 状态锁
+        // 重启倒计时目标：今晚 18:30
+        const PARTY_DATE = new Date("February 6, 2026 18:30:00").getTime();
+        let isFinalUnlocked = false;
 
         if (localStorage.getItem("leo_party_auth") === "granted") {
             showContent();
@@ -129,20 +137,12 @@
                 const distance = PARTY_DATE - now;
                 
                 if (distance <= 0) {
-                    if (!isUnlocked) { // 仅在第一次进入此判断时执行渲染
+                    if (!isFinalUnlocked) {
                         document.getElementById('timer').innerHTML = `0D 00H 00M 00S`;
-                        document.getElementById('status-title').innerHTML = "LOCATION UNLOCKED";
-                        document.getElementById('info').innerHTML = `
-                            <div class="unlocked-animation">
-                                <p>📍 <b>LOCATION:</b> 成都市 高新区 剑南大道北段 92号 </p>
-                                <p>⏰ <b>SCHEDULE:</b> 2026.2.6 19:00 晚餐 / 21:00 音乐会 </p>
-                                <p>🤵🤵‍♀️ <b>DRESS CODE:</b> 浅色系 </p>
-                                <p>🎁 <b>GIFT SUGGESTION:</b> 一本你最喜欢的书 </p>
-                                <p>🗺️<b>【导航定位】</b> 路易城堡.太阳宫 </p>
-                                <p>🚗<b>【温馨提示】</b> 驾车的贵宾，请下高架沿辅道从1号门进入地下停车场，车停靠近卢浮厅电梯厅位置，乘太阳宫1.2号客梯上三楼海港城！</p>
-                            </div>
-                        `;
-                        isUnlocked = true; // 上锁，防止 setInterval 重复渲染动画
+                        document.getElementById('status-title').innerHTML = "WELCOME TO THE PARTY";
+                        // 注入房间号惊喜
+                        document.getElementById('room-slot').innerHTML = `<span class="room-tag">ROOM 999</span>`;
+                        isFinalUnlocked = true;
                     }
                     return; 
                 }
