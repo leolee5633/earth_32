@@ -11,7 +11,7 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -59,15 +59,17 @@
             box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
         }
 
-        button:active { transform: scale(0.95); }
-
         .hint { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 15px; letter-spacing: 1px; }
         
         #timer { font-size: 30px; margin: 30px 0; font-weight: 200; color: #fff; }
         
         #info { text-align: left; padding: 0 15px; font-size: 13px; line-height: 2.2; color: rgba(212, 175, 55, 0.7); }
         #info b { color: #fff; font-weight: 500; margin-right: 5px; }
-        .unlocked { animation: fadeIn 1.5s ease-out; }
+
+        /* 关键：动画只执行一次，并保持最终状态 */
+        .unlocked-animation { 
+            animation: fadeIn 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards; 
+        }
 
         .hidden { display: none; }
     </style>
@@ -96,8 +98,8 @@
 
     <script>
         const SHIMO_URL = "https://shimo.im/forms/AxwXHAurIcHIClpJ/fill";
-        // 设定揭晓时间：2026年2月6日 中午12:00
-        const PARTY_DATE = new Date("February 6, 2026 10:42:00").getTime();
+        const PARTY_DATE = new Date("February 6, 2026 11:00:00").getTime();
+        let isUnlocked = false; // 状态锁
 
         if (localStorage.getItem("leo_party_auth") === "granted") {
             showContent();
@@ -126,20 +128,22 @@
                 const now = new Date().getTime();
                 const distance = PARTY_DATE - now;
                 
-                // 自动解锁逻辑
                 if (distance <= 0) {
-                    document.getElementById('timer').innerHTML = `0D 00H 00M 00S`;
-                    document.getElementById('status-title').innerHTML = "LOCATION UNLOCKED";
-                    document.getElementById('info').innerHTML = `
-                        <div class="unlocked">
-                            <p>📍 <b>LOCATION:</b> 成都市 高新区 剑南大道北段 92号 </p>
-                            <p>⏰ <b>SCHEDULE:</b> 2026.2.6 19:00 晚餐 / 21:00 音乐会 </p>
-                            <p>🤵🤵‍♀️ <b>DRESS CODE:</b> 浅色系 </p>
-                            <p>🎁 <b>GIFT SUGGESTION:</b> 一本你最喜欢的书 </p>
-                            <p>🚗<b>【导航定位】</b> 路易城堡.太阳宫 </p>
-                            <p>🚗<b>【温馨提示】</b> 驾车的贵宾，请下高架沿辅道从1号门进入地下停车场，车停靠近卢浮厅电梯厅位置，乘太阳宫1.2号客梯上三楼海港城！</p>
-                        </div>
-                    `;
+                    if (!isUnlocked) { // 仅在第一次进入此判断时执行渲染
+                        document.getElementById('timer').innerHTML = `0D 00H 00M 00S`;
+                        document.getElementById('status-title').innerHTML = "LOCATION UNLOCKED";
+                        document.getElementById('info').innerHTML = `
+                            <div class="unlocked-animation">
+                                <p>📍 <b>LOCATION:</b> 成都市 高新区 剑南大道北段 92号 </p>
+                                <p>⏰ <b>SCHEDULE:</b> 2026.2.6 19:00 晚餐 / 21:00 音乐会 </p>
+                                <p>🤵🤵‍♀️ <b>DRESS CODE:</b> 浅色系 </p>
+                                <p>🎁 <b>GIFT SUGGESTION:</b> 一本你最喜欢的书 </p>
+                                <p>🗺️<b>【导航定位】</b> 路易城堡.太阳宫 </p>
+                                <p>🚗<b>【温馨提示】</b> 驾车的贵宾，请下高架沿辅道从1号门进入地下停车场，车停靠近卢浮厅电梯厅位置，乘太阳宫1.2号客梯上三楼海港城！</p>
+                            </div>
+                        `;
+                        isUnlocked = true; // 上锁，防止 setInterval 重复渲染动画
+                    }
                     return; 
                 }
 
