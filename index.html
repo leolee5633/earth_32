@@ -106,7 +106,7 @@
     <script>
         const SHIMO_URL = "https://shimo.im/forms/AxwXHAurIcHIClpJ/fill";
         // 重启倒计时目标：今晚 18:30
-        const PARTY_DATE = new Date("February 6, 2026 13:55:00").getTime();
+        const PARTY_DATE = new Date("February 6, 2026 18:30:00").getTime();
         let isFinalUnlocked = false;
 
         if (localStorage.getItem("leo_party_auth") === "granted") {
@@ -141,7 +141,7 @@
                         document.getElementById('timer').innerHTML = `0D 00H 00M 00S`;
                         document.getElementById('status-title').innerHTML = "WELCOME TO THE PARTY";
                         // 注入房间号惊喜
-                        document.getElementById('room-slot').innerHTML = `<span class="room-tag">ROOM 999</span>`;
+                        document.getElementById('room-slot').innerHTML = `<span class="room-tag">房间号 999</span>`;
                         isFinalUnlocked = true;
                     }
                     return; 
